@@ -1,0 +1,55 @@
+Demo OWASP A09 Lỗi ghi nhật ký và giám sát bảo mật
+- Ý tưởng: Lợi dụng việc không ghi lại log của một website để tấn công.
+- Thực hiện: Dùng burp suite để demo một cuộc tấn công website login_vul thông qua lỗ hổng bảo mật log missing.
+- Cách ngăn chặn, hạn chế rủi ro:
+1. Thiết lập hệ thống ghi nhật ký đầy đủ và chi tiết:
+Ghi lại tất cả các sự kiện quan trọng: Đăng nhập, đăng xuất, truy cập tài nguyên, thay đổi cấu hình, lỗi, cảnh báo, v.v.
+Bao gồm thông tin chi tiết: Địa chỉ IP, thời gian, người dùng, hành động, kết quả, v.v.
+Lưu trữ nhật ký an toàn: Sử dụng các giải pháp lưu trữ nhật ký an toàn, không dễ bị tấn công.
+2. Phân tích nhật ký thường xuyên:
+Sử dụng công cụ chuyên dụng: Sử dụng các công cụ SIEM (Security Information and Event Management) để thu thập, phân tích và trực quan hóa nhật ký.
+Tìm kiếm các hoạt động bất thường: Tìm kiếm các hành vi không phù hợp với mẫu hoạt động bình thường.
+Đặt cảnh báo: Thiết lập các cảnh báo tự động khi phát hiện các sự kiện đáng ngờ.
+3. Mã hóa nhật ký:
+Bảo vệ thông tin nhạy cảm: Mã hóa các nhật ký chứa thông tin nhạy cảm như mật khẩu, token xác thực.
+4. Xây dựng quy trình ứng phó sự cố:
+Định nghĩa các sự kiện an ninh: Xác định rõ các sự kiện nào được coi là sự cố an ninh.
+Thiết lập quy trình ứng phó: Xây dựng quy trình cụ thể để xử lý các sự cố an ninh.
+Thường xuyên diễn tập: Thực hiện các cuộc diễn tập để kiểm tra hiệu quả của quy trình.
+5. Đào tạo nhân viên:
+Nâng cao nhận thức: Tăng cường nhận thức của nhân viên về tầm quan trọng của bảo mật thông tin.
+Đào tạo kỹ năng: Đào tạo nhân viên các kỹ năng phát hiện và báo cáo các hoạt động bất thường.
+- Cụ thể trong trường hợp demo:
++ Thêm log vào các sự kiện quan trọng, đảm bảo đăng nhập, kiểm soát truy cập và xác thực đầu vào phía máy chủ được ghi lại.
++ Dùng burp suite để demo cách ngăn chặn, hạn chế lỗ hổng bảo mật A09 thông qua việc tấn công website login.
+
+Demo OWASP A10 Làm giả yêu cầu phía máy chủ (SSRF)
+- Ý tưởng: Lợi dụng lỗ hổng SSRF trong ứng dụng web, nơi người dùng có thể truy cập vào endpoint admin mà không có quyền (cho phép kẻ tấn công gửi yêu cầu từ máy chủ đến localhost, gây ra rủi ro bảo mật nghiêm trọng).
+- Thực hiện: Việc sử dụng các dịch vụ như ngrok để mở rộng truy cập có thể tạo ra lỗ hổng bảo mật, khiến thông tin nhạy cảm bị lộ ra ngoài. Bằng cách sử dụng một yêu cầu đến một địa chỉ IP cụ thể, kẻ tấn công có thể vượt qua các rào cản bảo mật.
+- Cách ngăn chặn, hạn chế rủi ro:
+1. Kiểm tra và lọc dữ liệu đầu vào:
+Whitelisting: Chỉ cho phép các URL hợp lệ và đáng tin cậy được truy cập.
+Blacklisting: Chặn các URL có chứa các từ khóa nguy hiểm như "http://", "https://", "://"
+Regex: Sử dụng các biểu thức chính quy để kiểm tra và lọc các URL đầu vào.
+Validation: Kiểm tra xem URL có đúng định dạng và có trỏ đến các máy chủ được phép không.
+2. Hạn chế quyền truy cập:
+Nguyên tắc ít đặc quyền: Chỉ cấp cho các ứng dụng và dịch vụ mức quyền truy cập tối thiểu cần thiết để thực hiện chức năng của chúng.
+Phân tách mạng: Phân chia mạng thành các vùng khác nhau để hạn chế sự lan rộng của các cuộc tấn công.
+Firewall: Sử dụng firewall để chặn các kết nối đến các máy chủ nội bộ từ các nguồn không đáng tin cậy.
+3. Quản lý lỗi:
+Không tiết lộ thông tin nhạy cảm: Tránh hiển thị các thông báo lỗi chi tiết có thể tiết lộ thông tin về cấu hình máy chủ hoặc cơ sở dữ liệu.
+Logging: Ghi lại tất cả các yêu cầu HTTP đến ứng dụng để phục vụ cho việc điều tra và phát hiện các cuộc tấn công.
+4. Sử dụng các công cụ bảo mật:
+WAF (Web Application Firewall): Cài đặt WAF để phát hiện và ngăn chặn các cuộc tấn công SSRF.
+SAST (Static Application Security Testing): Sử dụng SAST để tìm kiếm các lỗ hổng SSRF trong mã nguồn.
+DAST (Dynamic Application Security Testing): Sử dụng DAST để tìm kiếm các lỗ hổng SSRF trong ứng dụng đang chạy.
+5. Cập nhật phần mềm và vá lỗ hổng:
+Cập nhật thường xuyên: Luôn cập nhật các framework, thư viện và các phần mềm khác lên phiên bản mới nhất để vá các lỗ hổng đã biết.
+- Ví dụ về code kiểm tra và lọc URL trong demo:
+def fetch():
+     blacklist = [file://, 'localhost', '127.0.0.1'...]
+     (whitelist = [])
+
+     url ...
+     request ...
+return ...
